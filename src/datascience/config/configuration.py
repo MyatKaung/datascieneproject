@@ -6,10 +6,9 @@ import os
 
 
 
-
-os.environ["MLFLOW_TRACKING_URI"] = "Dagshubmlflowurl"
-os.environ["MLFLOW_TRACKING_USERNAME"] ='your_user_name'
-os.environ["MLFLOW_TRACKING_PASSWORD"] = 'your_password'
+os.environ["MLFLOW_TRACKING_URI"] = "your mlflow tracking uri"
+os.environ["MLFLOW_TRACKING_USERNAME"] ='yourusername'
+os.environ["MLFLOW_TRACKING_PASSWORD"] = 'yourpassword'
 
 
 class ConfigurationManager:

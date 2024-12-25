@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wine Quality Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Wine Quality Prediction</h1>
+        <hr>
+
+        <!-- Train Model Section -->
+        <div class="text-center mb-4">
+            <button class="btn btn-primary" id="train-btn">Train Model</button>
+            <div id="train-feedback" class="mt-3"></div>
+        </div>
+
+        <!-- Prediction Form -->
+        <form id="predict-form" action="/predict" method="post">
+            <h3 class="mb-3">Enter Wine Characteristics:</h3>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Fixed Acidity:</label>
+                    <input type="text" name="fixed_acidity" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Volatile Acidity:</label>
+                    <input type="text" name="volatile_acidity" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Citric Acid:</label>
+                    <input type="text" name="citric_acid" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Residual Sugar:</label>
+                    <input type="text" name="residual_sugar" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Chlorides:</label>
+                    <input type="text" name="chlorides" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Free Sulfur Dioxide:</label>
+                    <input type="text" name="free_sulfur_dioxide" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Total Sulfur Dioxide:</label>
+                    <input type="text" name="total_sulfur_dioxide" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Density:</label>
+                    <input type="text" name="density" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>pH:</label>
+                    <input type="text" name="pH" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Sulphates:</label>
+                    <input type="text" name="sulphates" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Alcohol:</label>
+                    <input type="text" name="alcohol" class="form-control" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Predict</button>
+        </form>
+    </div>
+
+	<script>
+		$(document).ready(function() {
+			$("#train-btn").click(function() {
+				$("#train-feedback").html('<div class="spinner-border" role="status"></div> Training in progress...');
+				$.get("/train", function(response) {
+					if (response.status === "success") {
+						$("#train-feedback").html(`
+							<div class="alert alert-success">${response.message}</div>
+							<p class="mt-3 text-success"><strong>Next Step:</strong> Please fill out the form below and click <strong>Predict</strong> to see the wine quality.</p>
+						`);
+					} else {
+						$("#train-feedback").html(`
+							<div class="alert alert-danger">${response.message}</div>
+						`);
+					}
+				});
+			});
+		});
+	</script>
+	
+</body>
+</html>
