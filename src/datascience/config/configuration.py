@@ -1,6 +1,16 @@
 from src.datascience.constants import *
 from src.datascience.utils.common import read_yaml, create_directories
-from src.datascience.entity.config_entity import DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainerConfig
+from src.datascience.entity.config_entity import (DataIngestionConfig, DataValidationConfig, 
+                                        DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig)
+import os
+
+
+
+
+os.environ["MLFLOW_TRACKING_URI"] = "Dagshubmlflowurl"
+os.environ["MLFLOW_TRACKING_USERNAME"] ='your_user_name'
+os.environ["MLFLOW_TRACKING_PASSWORD"] = 'your_password'
+
 
 class ConfigurationManager:
     def __init__(self, config_filepath=CONFIG_FILE_PATH,
@@ -62,3 +72,24 @@ class ConfigurationManager:
             target_column=schema.name
         )
         return model_trainer_config
+    
+
+    
+
+    def get_model_evaluation_config(self) -> ModelEvaluationConfig:
+        config = self.config.model_evaluation
+        params = self.params.ElasticNet
+        schema = self.schema.TARGET_COLUMN
+        create_directories([config.root_dir])
+        model_evaluation_config = ModelEvaluationConfig(
+            root_dir=config.root_dir,
+            test_data_path=config.test_data_path,
+            model_path=config.model_path,
+            all_params=params,
+            metric_file_name=config.metric_file_name,
+            target_column=schema.name,
+            mlflow_uri = os.environ.get("MLFLOW_TRACKING_URI")
+
+        )
+        return model_evaluation_config
+       
