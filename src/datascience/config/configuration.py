@@ -3,12 +3,16 @@ from src.datascience.utils.common import read_yaml, create_directories
 from src.datascience.entity.config_entity import (DataIngestionConfig, DataValidationConfig, 
                                         DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig)
 import os
+from dotenv import load_dotenv
 
 
+# Load environment variables from .env file
+load_dotenv()
 
-os.environ["MLFLOW_TRACKING_URI"] = "your mlflow tracking uri"
-os.environ["MLFLOW_TRACKING_USERNAME"] ='yourusername'
-os.environ["MLFLOW_TRACKING_PASSWORD"] = 'yourpassword'
+os.environ["MLFLOW_TRACKING_URI"] = os.getenv("MLFLOW_TRACKING_URI")
+os.environ["MLFLOW_TRACKING_USERNAME"] = os.getenv("MLFLOW_TRACKING_USERNAME")
+os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv("MLFLOW_TRACKING_PASSWORD")
+
 
 
 class ConfigurationManager:
